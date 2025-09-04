@@ -32,16 +32,19 @@ function GetFile() {
     }
   };
 
-  // 🔽 Force file download using blob (your original working method)
+  // 🔽 Download using backend proxy to bypass CORS
   const handleDownload = async () => {
     if (!fileLink) return;
 
     try {
-      console.log("Downloading file:", fileLink);
-      const response = await fetch(fileLink);
+      console.log("Downloading file via proxy:", fileLink);
+      
+      // Use your backend proxy route with query parameter
+      const proxyUrl = `${import.meta.env.VITE_API_URL}/download?url=${encodeURIComponent(fileLink)}`;
+      const response = await fetch(proxyUrl);
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+        throw new Error(`Proxy download failed: ${response.status} ${response.statusText}`);
       }
 
       const blob = await response.blob();
@@ -57,16 +60,11 @@ function GetFile() {
       a.remove();
 
       window.URL.revokeObjectURL(url);
+      console.log("Download successful!");
       
     } catch (err) {
       console.error("Download error:", err);
-      
-      // Check if it's a CORS error
-      if (err.message.includes('CORS') || err.name === 'TypeError') {
-        alert("Download failed due to CORS policy. Please contact support to enable downloads from your domain.");
-      } else {
-        alert("Download failed: " + err.message);
-      }
+      alert("Download failed: " + err.message);
     }
   };
 
@@ -104,8 +102,8 @@ function GetFile() {
             >
               Download File
             </button>
-            {/* Debug info - remove in production */}
-            {/* <div className="text-xs text-gray-500 break-all">
+            {/* Debug info - remove in production
+            <div className="text-xs text-gray-500 break-all">
               File URL: {fileLink}
             </div> */}
           </div>
