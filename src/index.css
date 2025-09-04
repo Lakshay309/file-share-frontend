@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Asimovian&display=swap');
+@import "tailwindcss";
+@theme{
+  --font-Asimovian: Asimovian, sans-serif;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes spin-right {
+  0% {
+    transform: scale(0.3) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@keyframes spin-left {
+  0% {
+    transform: scale(0.3) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(-360deg);
+  }
+}
+
+.spin-right {
+  animation: spin-right 0.3s ease-in-out forwards;
+}
+.spin-left {
+  animation: spin-left 0.3s ease-in-out  forwards;
+}
+
+
+
+:root {
+  --bg-dark: hsl(210 30% 95%);
+  --bg: hsl(210 40% 98%);
+  --bg-light: hsl(210 45% 100%);
+  --text: hsl(220 20% 10%);
+  --text-muted: hsl(220 10% 40%);
+  --highlight: hsl(190 80% 95%);
+  --border: hsl(210 15% 80%);
+  --border-muted: hsl(210 15% 90%);
+  --primary: hsl(180, 91%, 35%);
+  --secondary: hsl(280 70% 55%);
+  --danger: hsl(0 75% 55%);
+  --warning: hsl(40 90% 50%);
+  --success: hsl(150 65% 40%);
+  --info: hsl(190 85% 45%);
+}
+
+/* Dark Theme */
+.dark {
+  --bg-dark: hsl(220 25% 8%);
+  --bg: hsl(220 20% 12%);
+  --bg-light: hsl(220 15% 16%);
+  --text: hsl(220 30% 95%);
+  --text-muted: hsl(220 10% 65%);
+  --highlight: hsl(190 60% 20%);
+  --border: hsl(220 15% 30%);
+  --border-muted: hsl(220 10% 20%);
+  --primary: hsl(180, 91%, 35%);
+  --secondary: hsl(280 80% 70%);
+  --danger: hsl(0 70% 65%);
+  --warning: hsl(40 90% 65%);
+  --success: hsl(150 55% 55%);
+  --info: hsl(190 85% 65%);
+}
+
+#root{
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-dark);
+  color: var(--text);
+}
