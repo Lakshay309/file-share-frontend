@@ -32,17 +32,16 @@ function GetFile() {
     }
   };
 
-  // 🔽 Multiple download strategies to handle CORS
+  // 🔽 Force file download using blob (your original working method)
   const handleDownload = async () => {
     if (!fileLink) return;
 
-    // Strategy 1: Try fetch with blob (works on localhost, best UX)
     try {
-      console.log("Trying fetch + blob method...");
+      console.log("Downloading file:", fileLink);
       const response = await fetch(fileLink);
       
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
       }
 
       const blob = await response.blob();
@@ -58,70 +57,16 @@ function GetFile() {
       a.remove();
 
       window.URL.revokeObjectURL(url);
-      console.log("Blob download successful!");
-      return; // Exit if successful
       
-    } catch (fetchError) {
-      console.error("Fetch + blob method failed:", fetchError);
-      console.log("This is likely a CORS issue. Trying alternative methods...");
-    }
-
-    // Strategy 2: Try using your backend as a proxy
-    try {
-      console.log("Trying backend proxy method...");
-      const proxyResponse = await fetch(import.meta.env.VITE_API_URL + "/download-proxy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileUrl: fileLink }),
-      });
-
-      if (proxyResponse.ok) {
-        const blob = await proxyResponse.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        
-        const filename = fileLink.split("/").pop() || "downloaded_file";
-        a.download = filename;
-        
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        
-        window.URL.revokeObjectURL(url);
-        console.log("Proxy download successful!");
-        return; // Exit if successful
+    } catch (err) {
+      console.error("Download error:", err);
+      
+      // Check if it's a CORS error
+      if (err.message.includes('CORS') || err.name === 'TypeError') {
+        alert("Download failed due to CORS policy. Please contact support to enable downloads from your domain.");
+      } else {
+        alert("Download failed: " + err.message);
       }
-    } catch (proxyError) {
-      console.error("Proxy method failed:", proxyError);
-    }
-
-    // Strategy 3: Try direct link with download attribute
-    try {
-      console.log("Trying direct link method...");
-      const a = document.createElement("a");
-      a.href = fileLink;
-      a.download = fileLink.split("/").pop() || "downloaded_file";
-      a.target = "_blank";
-      
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      
-      console.log("Direct link download attempted");
-      return;
-      
-    } catch (directError) {
-      console.error("Direct link method failed:", directError);
-    }
-
-    // Strategy 4: Last resort - open in new tab with instructions
-    try {
-      window.open(fileLink, '_blank');
-      alert('CORS policy is blocking the download. File opened in new tab. Please right-click the link and select "Save As" or "Download".');
-    } catch (finalError) {
-      console.error("All download methods failed:", finalError);
-      alert("Download failed due to CORS restrictions. Please contact support to enable file downloads.");
     }
   };
 
@@ -160,9 +105,9 @@ function GetFile() {
               Download File
             </button>
             {/* Debug info - remove in production */}
-            <div className="text-xs text-gray-500 break-all">
+            {/* <div className="text-xs text-gray-500 break-all">
               File URL: {fileLink}
-            </div>
+            </div> */}
           </div>
         )}
 
