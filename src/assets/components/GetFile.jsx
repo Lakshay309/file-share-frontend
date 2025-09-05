@@ -69,14 +69,14 @@ function GetFile() {
   };
 
   return (
-    <div className="mt-6 min-h-[50%] p-2 w-full min-w-[400px] flex justify-around flex-col items-center">
+    <div className="mt-6 min-h-[50%] p-2 w-full flex justify-around flex-col items-center">
       {/* Input field */}
       <input
         type="text"
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="Enter 6-digit code"
-        className="w-[60%] p-2 border-2 rounded text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500 h-[50px]"
+        className="w-[60%] p-2 border-1 rounded text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500 h-[50px]"
       />
 
       {/* Button (hidden once results are shown) */}
@@ -84,8 +84,8 @@ function GetFile() {
         <button
           onClick={downloadFile}
           disabled={loading}
-          className={`w-[60%] m-4 p-2 border-2 rounded text-center h-[50px] text-white ${
-            loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+          className={`w-[60%] m-4 p-2 border-1 rounded text-center h-[50px] text-white ${
+            loading ? "bg-gray-400" : "bg-[var(--secondary)] dark:bg-[var(--secondary)]"
           }`}
         >
           {loading ? "Fetching..." : "Get File/Text"}
@@ -102,10 +102,6 @@ function GetFile() {
             >
               Download File
             </button>
-            {/* Debug info - remove in production
-            <div className="text-xs text-gray-500 break-all">
-              File URL: {fileLink}
-            </div> */}
           </div>
         )}
 
