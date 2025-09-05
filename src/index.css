@@ -33,8 +33,8 @@
 
 
 :root {
-  --bg-dark: hsl(210 30% 95%);
-  --bg: hsl(210 40% 98%);
+  --bg-dark: hsl(210 30% 90%);
+  --bg: hsl(210 40% 96%);
   --bg-light: hsl(210 45% 100%);
   --text: hsl(220 20% 10%);
   --text-muted: hsl(220 10% 40%);

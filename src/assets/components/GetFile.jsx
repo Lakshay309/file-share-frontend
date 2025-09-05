@@ -98,7 +98,7 @@ function GetFile() {
           <div className="space-y-2">
             <button
               onClick={handleDownload}
-              className="inline-block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md"
+              className="inline-block bg-[var(--success)] dark:bg[var(--success)] border-1 text-white px-4 py-2 rounded-lg shadow-md"
             >
               Download File
             </button>
